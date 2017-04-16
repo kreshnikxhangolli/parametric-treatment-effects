@@ -1,0 +1,466 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[margin = 2.5cm]{geometry}
+\usepackage[bottom]{footmisc} % used for footnote in bottom
+\usepackage{varioref} % cross referencing
+\usepackage{graphicx} % pictures?
+\usepackage{multirow}
+\usepackage{subcaption} % used for subtables
+
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{0.5em}
+\renewcommand{\baselinestretch}{1.2}
+
+\title{Parametric estimation of treatment effects with time-varying qualification in panel data and repeated cross-sections}
+\date{\today}
+\author{Kreshnik Xhangolli \footnote{Graduate School of Economics, Finance and Management, Goethe University Frankfurt, kreshnik.xhangolli@gmail.com}}
+
+
+\begin{document}
+	\maketitle
+	
+	\begin{abstract}
+		We present an \textit{unrestricted} linear model for identifying treatment effects in panel and repeated cross-sections with dichotomous time-varying qualification. The model is \textit{unrestricted} in terms of (i) treatment effects for each of the subgroups introduced by the time-varying qualification and (ii) subgroups' time-differences in potential untreated outcomes (time-effects). The subgroup generalization is achieved by considering subgroup information \textit{as given}. Instead time-effects generalization is achieved by combining subgroup indicator variables with time indicator variables. This panel data model enables estimation with fixed and random effects; the latter has not been considered before. This parametric approach allows for easier implementation of covariate control and for easier identification of sufficient conditions for treatment effects estimation in such setting. We employ the model to identify new scenarios and respective sufficient conditions for treatment effect estimation with time-varying qualification with panel data or repeated cross-sections.
+	\end{abstract}
+
+%\vspace{1in}	
+\textit{JEL Classification Numbers:} C14, C21, C33, I11.
+
+\textit{Key Words:} difference in differences, effect on in-stayers, effect on in-movers, untreated moving effect, panel data.
+\pagebreak
+
+\section{Introduction}
+
+In a Difference in Differences setting with time-varying qualification, treatment is applied to an eligible group of statistical units who fulfills some eligibility criteria after a certain point in time $t_0$. In this setting the group who receives the treatment after $t_0$ does not necessarily fulfill the eligibility criteria before $t_0$, allowing statistical units to move in or out the eligibility criteria before and after $t_0$. As showed by the example of \cite{lee2014difference}, in this kind of setting \textit{movers effect} are introduced which can be misleadingly considered as treatment effects.
+
+To come around such problem, \cite{lee2014difference} consider the heterogeneous treatment effects for the subgroups introduced by a dichotomous time-varying qualification in a two-periods time frame. They suggest four non-parametric estimators (Section~\vref{Sec:DD-set}) and show that these estimators can identify treatment effects for the two subgroups receiving treatment, if \textit{''same time-effect conditions"} of appropriate subgroups is assumed. In addition the authors provide panel linear models that assume same time-effects, same group-effects and either (i) same treatment effect for all subgroups or (ii) pairwise differing treatment effects. They present, through first-differencing, parametric estimation of treatment effects in panels satisfying this kind of structure. 
+
+We propose a panel linear model that poses no restrictions on subgroups' time-effects or treatment-effects. Subgroup generalization is achieved by considering subgroup information \textit{as given}. Time-invariant indicator variables are introduced for each subgroup. Instead unrestricted time-effects are measured by combining subgroup indicator variables with time indicator variables. Such approach builds a typical panel linear model that enables estimation with fixed and random effects. While a first difference estimator has been proposed on some restricted models by \cite{lee2014difference}, to our knowledge this has not been the case with random effects. This is important since random effects allow for control on time-invariant covariates. We show that with this model  it is possible to parametrically measure treatment effects without imposing the same time-effects and same group-effects structure proposed by \cite{lee2014difference}. The treatment we present can be considered as the parametric equivalent of the non-parametric estimators proposed by \cite{lee2014difference}. We believe that this parametric approach allows for easier implementation for covariate control and for identification of sufficient conditions for treatment effects estimation in such setting. We employ the model to identify new scenarios and respective sufficient conditions for treatment effects estimation with time-varying qualification with panel data or repeated cross-sections.
+
+We succinctly specify the structure of the DD setting as specified in \cite{lee2014difference} in Section 2. In Section 3 we specify the unrestricted panel linear model, present first difference and random effects estimation and list scenarios and specific assumptions that identify treatment effects. In Section 4 we explore our model in a setting with repeated cross-sections.
+ 
+\section{Specifications of DD with time-varying qualification } \label{Sec:DD-set}
+
+The DD setting with time-varying qualification proposed by \cite{lee2014difference} has $\tilde{N}$ statistical units indexed by $i$ which are observed at different time points indexed by $t$. Outcome of interest is denoted by $Y_{it}$, treatment and qualification indicators denoted respectively by $D_{it}$ and $Q_{it}$, and covariates denoted by $W_{it}$. The controlling covariates can be time constant $C_i$ or time-varying $X_{it}$, therefore $W_{it}=(C_i,X_{it})$. The causality at each period $t$ consists of $W_{it}$ being realized before $D_{it}$ and both of them affecting outcome $Y_{it}$ (see table~\vref{dg:causality}).
+
+\begin{table}[h]
+	\parbox{0.45\linewidth}{
+		\centering
+		\caption{Diagram of causality}
+		\begin{tabular}{ccccc}
+			$W_{it}$ & $\longrightarrow$ & $\longrightarrow$ & $\longrightarrow$ & $Y_{it}$ \\
+			& $\searrow$ & & $\nearrow$ & \\
+			& & $D_{it}$ & &
+	\end{tabular}
+	\label{dg:causality}
+	}
+	\parbox{0.45\linewidth}{
+	\centering
+	\caption{Movers and stayers}
+	\begin{tabular}{l|cc}
+		& $Q_3 = 0$ & $Q_3 = 1$ \\
+		\hline
+		$Q_2 = 0$ & out-stayers & in-movers \\
+		$Q_2 = 1$ & out-movers & in-stayers \\		
+	\end{tabular}
+	\label{tb:4groups}
+	}
+\end{table}
+
+The time frame is restricted to two periods $(t=2,3)$. Treatment is applied only to the group who is eligible at period $t=3$, irrespectively of the group's eligibility at period $t=2$, therefore $D_{it}=Q_{it}1[t=3]$, where $1[.]$ is the indicator function. This setting introduces four groups (table~\vref{tb:4groups}). As a side note, we really appreciate this semantic introduced by \cite{lee2014difference} since allows for referencing of bigger subgroups such as \textit{in-group (in-movers and in-stayers), out-group (out-movers and out-stayers), movers (in-movers and out-movers) and stayers (out-stayers and in-stayers)}.
+ 
+The potential outcome model identifies at every period $t$ two potential responses, treated $Y_{it}^1$ and untreated $Y_{it}^0$. The relation between potential and observed outcomes is given by $ Y_{it} = (1 - D_{it}) Y_{it}^0 + D_{it} Y_{it}^1 = Y_{it}^0 + (Y_{it}^1-Y_{it}^0)D_{it} = Y_{it}^0 + (Y_{it}^1-Y_{it}^0)Q_{it}1[t=3]$. The last equality holds since in this setting $D_{it}=Q_{it}1[t=3]$. The observed stochastic process is $\{Y_{it}, Q_{it},D_{it}, W_{it}, t=2,3\}, \quad i=1,\dots,\tilde{N}$ with \textit{iid} sample properties. $W_{it}$ may contain lagged variables but in that case 3 periods will be needed. Denoting $W_{i,t-1}^t \equiv (C_i,X_{i,t-1}^\prime,X_{it}^\prime)^\prime$, \cite{lee2014difference} consider four $W_2^3$-conditional effects at the post-treatment period $t=3$ (table~\vref{tb:treat-effect}). The estimators proposed by \cite{lee2014difference} are presented in table~\vref{tb:non-param-est}.
+
+\begin{table}
+	\caption{Treatment effects and non-parametric estimators}
+	\centering
+	\subcaption{Treatment effects with time-varying qualification}
+		\label{tb:treat-effect}
+		\begin{tabular}{cc}
+			%\hline
+			out-stayers $\equiv E(Y_3^1 - Y_3^0|W_2^3,Q_2=0, Q_3=0)$ & in-movers $\equiv E(Y_3^1 - Y_3^0|W_2^3,Q_2=0, Q_3=1)$\\
+			out-movers  $\equiv E(Y_3^1 - Y_3^0|W_2^3,Q_2=1, Q_3=0)$ & in-stayers $\equiv E(Y_3^1 - Y_3^0|W_2^3,Q_2=1, Q_3=1)$
+		\end{tabular}
+	\bigskip
+	\subcaption{DD non-parametric estimators}
+		\label{tb:non-param-est}
+		\centering
+		\begin{tabular}{cc}
+			Name & Definition \\ %end first line
+			\text{stayer DD : } & $DD_{stay.}  = E(\triangle Y_3|Q_2=1,Q_3=1) - E(\triangle Y_3|Q_2=0,Q_3=0)$\\
+			\text{mover DD : } & $ DD_{move.}  = E(\triangle Y_3|Q_2=0,Q_3=1) - E(\triangle Y_3|Q_2=1,Q_3=0)$\\
+			\text{in-stayer out-mover DD : } & $DD_{in-s,out-m}  = E(\triangle Y_3|Q_2=1,Q_3=1) - E(\triangle Y_3|Q_2=1,Q_3=0)$\\
+			\text{in-mover out-stayer DD : } & $ DD_{in-m,out-s}  = E(\triangle Y_3|Q_2=0,Q_3=1) - E(\triangle Y_3|Q_2=0,Q_3=0)$
+		\end{tabular}
+\end{table}
+
+\section{Treatment effects with panel data}
+\subsection{Unrestricted Linear Panel Model}
+We consider the setting with two periods $(t=2,3)$, in which treatment is applied only to the group who is eligible at period $t=3$, irrespectively of the group's eligibility at period $t=2$. In the unrestricted model we propose, subgroup information is considered \textit{as given}, i.e. as a time-invariant covariate of the statistical unit. An alternative approach would be to create four dichotomous variables indicating unit's belonging to that specific subgroup (table~\ref{tb:subgroups}). We will alternate between the two notations of subgroups depending on which presentation provides better clarity on the estimation method considered. We label them as the G-notation and Q-notation. Subgroups will be indexed by the pair $(Q_2,Q_3)$ identifying that group. Therefore \textit{out-stayers} will be indexed by $00$ and so on. It is important to keep in mind that (i) subgroup variables are functions of the eligibility variables $Q_{i,2},Q_{i,3}$ and (ii) subgroup information is considered as given and time-invariant; the same as gender would be considered.
+\begin{table}[h]
+	\centering	
+	\caption{Alternative subgroups presentation}
+	\label{tb:subgroups}
+	\begin{tabular}{ll}
+		% \hline
+		$G_{00}=(1-Q_{i,2})(1-Q_{i,3})$ & $G_{01}=(1-Q_{i,2})Q_{i,3}$\\
+		$G_{10}=Q_{i,2}(1-Q_{i,3})$ & $G_{11}=Q_{i,2}Q_{i,3}$
+	\end{tabular}
+\end{table} 
+
+Using potential outcome framework in our setting means that each subgroup has potential \textit{untreated} outcomes at $t=2,3$ and potential \textit{treated} outcome at $t=3$. In table~\vref{tb:POMgen} we present the potential outcomes, where we have used the same indexation logic but we have substituted cumbersome potential outcome symbols, $Y_{i,00,t=2}^0$, with Greek letters, where $\gamma$ refers to potential untreated outcome at $t=2$, $\delta$ to potential untreated outcome at $t=3$ and $\beta$ to treatment effects. We employ this Greek letter notation through the rest of this paper. 
+\begin{table}[h]
+	\caption{POM representation of the general case}
+	\label{tb:POMgen}
+	\centering
+	\begin{tabular}{cc c cc c cc c cc}
+		\multicolumn{2}{c}{Groups} & & \multicolumn{2}{c}{$Y_2^0$} & & \multicolumn{2}{c}{$Y_3^0$} & & \multicolumn{2}{c}{$Y_3^1$} \\
+		\cline{1-2} \cline{4-5} \cline{7-8} \cline{10-11}
+		\scriptsize{out-stayers $(Q_2 = 0,Q_3 = 0)$} & \scriptsize{in-movers $(Q_2 = 0,Q_3 = 1)$} & & $\gamma_{00}$ & $\gamma_{01}$& & $\delta_{00}$ & $\delta_{01}$ & & $\delta_{00}+\beta_{00}$ & $\delta_{01}+\beta_{01}$ \\
+		\scriptsize{out-movers $(Q_2 = 1,Q_3 = 0)$} & \scriptsize{in-stayers $(Q_2 = 1,Q_3 = 1)$} & & $\gamma_{10}$ & $\gamma_{11}$& & $\delta_{10}$ & $\delta_{11}$ & & $\delta_{10}+\beta_{10}$ & $\delta_{11}+\beta_{11}$ \\		
+	\end{tabular}
+\end{table}
+We would like to clarify two characteristics of the model presented in table~\ref{tb:POMgen}. First, the model implies heterogeneity of homogeneous subgroups, i.e. while statistical units among subgroups may differ in potential outcomes, statistical units belonging to the same subgroup are the same. Second, for ease of presentation the effects of observables $(W_{it})$ and unobservables $(V_{it})$ are not shown in table \ref{tb:POMgen}. The model of table~\ref{tb:POMgen} can be considered as the case when outcome is determined only by treatment and no other factors, therefore we have only constants. The complete model specification is given in equation \vref{model:m1}, with observables $(W_{it})$ and unobservables $(V_{it})$ as defined in \cite{lee2014difference}.
+\begin{equation}\tag{$M_1$}
+\label{model:m1}
+\begin{split}
+Y_{i2}^0 &= \gamma_{00}G_{00} + \gamma_{10}G_{10} + \gamma_{01}G_{01}  + \gamma_{11}G_{11} + \beta_w^\prime W_{i2} + V_{i2}\\
+Y_{i3}^0 &= \delta_{00}G_{00} + \delta_{10}G_{10} + \delta_{01}G_{01}  + \delta_{11}G_{11} + \beta_w^\prime W_{i3} + V_{i3} \\
+Y_{i3}^1 &= Y_{i3}^0 + \underset{=\eta}{\underbrace{\beta_{00}G_{00} + \beta_{10}G_{10} + \beta_{01}G_{01}  + \beta_{11}G_{11}}} 
+\end{split} 
+\end{equation}	 
+The panel data representation of the model~\ref{model:m1} takes the form (appendix~\ref{appendix:panel:form})
+\begin{equation}\tag{$P_1$}
+\label{model:p1}
+\begin{split}
+Y_{it}  = &\gamma_{00}G_{00}1[t=2] + \gamma_{10}G_{10}1[t=2] + \gamma_{01}G_{01}1[t=2] + \gamma_{11}G_{11}1[t=2] + \delta_{00}G_{00}1[t=3] \\
+& + \delta_{10}G_{10}1[t=3] + (\delta_{01}+\beta_{01})G_{01}1[t=3] + (\delta_{11}+\beta_{11})G_{11}1[t=3] + \beta_w^\prime W_{it} + V_{it}
+\end{split} 
+\end{equation}
+The vector of covariates $(G_{00}1[t=2],G_{10}1[t=2],G_{01}1[t=2],G_{11}1[t=2],G_{00}1[t=3],G_{10}1[t=3],G_{01}1[t=3],G_{11}1[t=3],W_{it})^\prime$ is known for each statistical unit at each time point $t=2,3$ and unobservables are included in $V_{it}=A_i+U_{it}$. Coefficients $(\gamma_{00},\gamma_{10},\gamma_{01},\gamma_{11},\delta_{00},\delta_{10},\delta_{01}+\beta_{01},\delta_{11}+\beta_{11},\beta_w^\prime)^\prime$ are estimated from panel model \ref{model:p1}. First note that it is possible to estimate only the sums $\delta_{.1}+\beta_{.1}$, instead of treatment coefficients $\beta_{.1}$. This means that (i) treatment effects can be measured only for \textit{in-movers} and \textit{in-stayers} and (ii) additional assumptions are needed to disentangle treatment effects. Both (i)-(ii) have already been pointed out by \cite{lee2014difference} through their non-parametric estimators, but we believe that in \ref{model:p1} they are easier to understand. Point (i) is expected since potential treated outcomes are observed only for these two subgroups \cite{lee2014difference}. With respect to (ii), in subsection \ref{subsec:fd}, we identify new sufficient assumptions besides those previously described by \cite{lee2014difference}.
+
+Through panel model \ref{model:p1}, estimation of coefficients can be done with any fixed or random effects panel data estimation methods. This is a major contribution of this paper, since \cite{lee2014difference} suggest only a \textit{first difference} estimator which is applied to a much more restricted model than \ref{model:p1}. In the end of this subsection we show how \cite{lee2014difference} models represent special cases of \ref{model:p1}.
+
+While \ref{model:p1} is a typical panel data representation of \ref{model:m1}, the latter can be presented also as a system of equations \ref{model:o1}. \ref{model:o1} is a system of two equations $t=2,3$ with the same covariates but some differing coefficients. 
+\begin{equation}\tag{$O_1$}
+	\label{model:o1}
+	\begin{split}
+		Y_{i2} &= \gamma_{00}G_{00} + \gamma_{10}G_{10} + \gamma_{01}G_{01}  + \gamma_{11}G_{11} + \beta_w^\prime W_{i2} + V_{i2}\\
+		Y_{i3} &= \delta_{00}G_{00} + \delta_{10}G_{10} + (\delta_{01}+\beta_{01})G_{01}  + (\delta_{11}+ \beta_{11})G_{11} + \beta_w^\prime W_{i3} + V_{i3}
+	\end{split}
+\end{equation}
+Methods for system OLS as specified in \cite{wooldridge2010econometric} can be easily employed with  \ref{model:o1} also. Instead \ref{model:p1}, which can be derived either from \ref{model:m1} or \ref{model:p1}, represents a typical panel data model, and therefore we use it as our workhorse. One can also consider \ref{model:p1} as a surrogate of the least-square dummy variable approach. In this case dummies are added for combination of subgroups and time periods. Whichever approach one chooses, the main idea remains that of considering subgroup information as given and time-invariant. Differing coefficients for subgroup variables allow usage of fixed effects methods such as first differencing.
+ 
+\subsection{First Difference estimator}\label{subsec:fd}
+First differencing \ref{model:p1} gives (appendix~\ref{appendix:fd:eq})
+\begin{equation}
+\tag{$FD_1$}
+\label{eq:fd}
+\begin{split}
+\triangle Y_{i3} = & (\underset{=\alpha_{00}}{\underbrace{\delta_{00}-\gamma_{00}}})G_{00} + (\underset{=\alpha_{10}}{\underbrace{\delta_{10}-\gamma_{10}}}) G_{10} + (\underset{=\alpha_{01}}{\underbrace{\delta_{01}-\gamma_{01}}}+\beta_{01}) G_{01}  + 
+ (\underset{=\alpha_{11}}{\underbrace{\delta_{11}-\gamma_{11}}}+\beta_{11}) G_{11} \\
+ & + \beta_x^\prime \triangle X_{i3} + \triangle U_{i3}
+\end{split}
+\end{equation}
+
+where $\alpha_{..}=\delta_{..}-\gamma_{..}$ represents the time-difference in potential \textit{untreated} outcomes for respective subgroups, $(Y_{3,..}^0-Y_{2,..}^0)$, which is also the time-effects. As we show in the end of this subsection, the panel linear models of \cite{lee2014difference}, assume same time-effects $(\triangle \beta_3)$ for all subgroups. Clearly, \ref{eq:fd} illustrates the unrestricted case. When considering the first difference estimator we employ also the alternative Q-notation \vref{eq:fd:alt} (appendix ~\ref{appendix:altern:present}). \ref{eq:fd:alt} rearranges the terms $((1-Q_{i,2})(1-Q_{i,3}),Q_{i,2}(1-Q_{i,3}),(1-Q_{i,2})Q_{i,3},Q_{i,2}Q_{i,3})^\prime$ of \ref{eq:fd} into  $(1,Q_{i,2},Q_{i,3},Q_{i,2}Q_{i,3})^\prime$. As we will see, in some cases it is easier to identify sufficient assumptions using this \ref{eq:fd:alt}.
+\begin{equation}
+\label{eq:fd:alt}
+\tag{$FD_2$}
+\begin{split}
+\triangle Y_{i3} = &  \alpha_{00} + (\alpha_{10}-\alpha_{00})Q_{i,2} + (\alpha_{01}-\alpha_{00}+\beta_{01})Q_{i,3}  \\
+& + (\alpha_{11}-\alpha_{10}-\alpha_{01} +\alpha_{00}+\beta_{11}-\beta_{01})Q_{i,2}Q_{i,3}+\beta_x^\prime \triangle X_{i3} + \triangle U_{i3} 
+\end{split}
+\end{equation}
+Before identifying sufficient assumptions by employing \ref{eq:fd} and \ref{eq:fd:alt} we make three major comments. 
+
+First we re-iterate that since treatment is applied and observed only for $Q_3=1$, only the treatment effects for the \textit{in-groups (in-stayers and in-movers)} can be identified. Therefore we have to assume treatment effects for out-stayers and out-movers. This said, from this point onward, we imply estimation of \textit{in-groups} treatment effects whenever we refer to estimating treatment effects. In addition we will use the terms \textit{time-effects} and \textit{time-difference of potential untreated outcomes} interchangeably. 
+
+Second, estimation will be always biased with the time-difference of potential untreated outcomes (clearer in \ref{eq:fd}). Without additional assumptions it is not possible to disentangle treatment effects. One approach would be to assume zero or some constant time-effects, $\alpha_{11}= m, \alpha_{10}=n, m,n \in R$. To our knowledge this approach is not quite well accepted. 
+
+Third, time-effects for \textit{out-movers} and \textit{out-stayers} can be identified and estimated. Assuming some form of relationship between any combination of the \textit{in-groups} with \textit{out-groups} can make estimation of treatment effects possible. While we usually employ equal or opposite time-effects between the \textit{in-groups} and \textit{out-groups}, other forms can be used. Equal time-effects assumption is preferred since it provides the clear DD interpretation - compared subgroups are affected by same unobserved differences.
+
+\textbf{Case 1:} $\alpha_{01} = \alpha_{00}$ is a sufficient condition to consistently estimate $\beta_{01}$ using either \ref{eq:fd} or \ref{eq:fd:alt}. The assumption would mean equal time-difference in potential untreated outcomes between \textit{in-movers} and \textit{out-stayers}. Note that with this assumption only, it is not possible to estimate either $\beta_{11}$ in \ref{eq:fd} or its \ref{eq:fd:alt} equivalent, $\beta_{11}-\beta_{01}$.
+
+\textbf{Case 2:} $\alpha_{01} = \alpha_{10}$ is a sufficient condition to consistently estimate $\beta_{01}$ using either \ref{eq:fd} or \ref{eq:fd:alt}. This condition has been first identified by \cite{lee2013difference} as \textit{''movers same time-effect condition"}\footnote{In subsection \vref{comp:assumptions} we show that under model \ref{model:m1} the two assumptions are equivalent}. Neither $\beta_{11}$ in \ref{eq:fd} or its \ref{eq:fd:alt} equivalent $\beta_{11}-\beta_{01}$, can be estimated in this case. $\alpha_{01} = \alpha_{10}$ would mean that \textit{in-movers} and \textit{out-movers} have the same \textit{mover} effect. An alternative assumption that would still allow estimation would be $\alpha_{01} = -\alpha_{00}$ which was employed by \cite{lee2013difference} in their example that conventional DD could misleadingly assign treatment effects when there are none.
+
+\textbf{Case 3:} $\alpha_{11} = \alpha_{00}$ is a sufficient condition to estimate $\beta_{11}$ using either \ref{eq:fd} or \ref{eq:fd:alt}. This is \textit{''stayers same time-effect condition"} identified by \cite{lee2014difference}\footnote{Supra note}. The sufficiency is easier to see from \ref{eq:fd}. In \ref{eq:fd:alt} we note that the coefficient of $Q_{i,2}Q_{i,3}$ can be re-arranged as $((\alpha_{11}-\alpha_{10})-(\alpha_{01} -\alpha_{00} +\beta_{01})+ \beta_{11})$. Since $\alpha_{11} = \alpha_{00}$, the first parenthesis equals the negative of $Q_{i,2}$ coefficient and the second parentheses equals $Q_{i,3}$ coefficient. Therefore $\beta_{11}$ is estimated. Note that we cannot measure $\beta_{01}$ employing only this assumption.
+
+\textbf{Case 4:} $\alpha_{11} = \alpha_{10}$ is a sufficient condition to estimate $\beta_{11}$ using either \ref{eq:fd} or \ref{eq:fd:alt}. This assumption would mean same time-effects for \textit{in-stayers} and \textit{out-movers}. Depending on the case under study other relationships may be more plausible; for example negative time-effects differences $(\alpha_{11} = \alpha_{10})$.The sufficiency is easier to see from \ref{eq:fd}. In \ref{eq:fd:alt}, $Q_{i,2}Q_{i,3}$ coefficient becomes $(-(\alpha_{01} -\alpha_{00} +\beta_{01})+ \beta_{11})$, where the parenthesis equals $Q_{i,3}$ coefficient. Note that we cannot measure $\beta_{01}$ by employing only this assumption.
+
+\textbf{Case 5:} $\alpha_{11}-\alpha_{10}-\alpha_{01} +\alpha_{00}=0$ is a sufficient condition to consistently estimate $\beta_{11}-\beta_{01}$ using either \ref{eq:fd} or \ref{eq:fd:alt}. This can be proved useful when the research question relates to the difference in treatment effects between the two in-groups. Note also that the terms of the assumption can be rearranged, for example $\alpha_{11}-\alpha_{10}=\alpha_{01} -\alpha_{00}$. The sufficiency is easily seen from \ref{eq:fd:alt}. In \ref{eq:fd}, sufficiency is derived by appropriate combination of coefficients of measurable coefficients $\alpha_{00},\alpha_{10},\alpha_{01}+\beta_{01},\alpha_{11}+\beta_{11}$. If in addition we assume same treatment effects for the in-groups  $(\beta_{11}=\beta_{01})$ then this condition is sufficient to estimate the effect (case 10). 
+
+\textbf{Case 6:} $\alpha_{01} = \alpha_{11}$ is a sufficient condition to consistently estimate $\beta_{11}-\beta_{01}$ if the latter is of interest to the researcher. Preferably used with \ref{eq:fd:alt}. If we are assuming same treatment effects for the in-groups  $(\beta_{11}=\beta_{01})$ then this condition is sufficient to estimate the effect.
+
+\textbf{Case 7:} Assumptions in Case 1 and 5 are jointly sufficient to estimate non-equal $\beta_{11},\beta_{01}$. Assumptions in Case 1 and 6 can be considered a special case of Case 7.
+
+\textbf{Case 8:} Assumptions in Case 2 and 5 are jointly sufficient to estimate non-equal $\beta_{11},\beta_{01}$. Assumptions in Case 2 and 6 can be considered a special case of Case 8.
+
+\textbf{Case 9:} Assumptions in Case 3 and 5 are jointly sufficient to estimate non-equal $\beta_{11},\beta_{01}$. Assumptions in Case 3 and 6 can be considered a special case of Case 9.
+
+\textbf{Case 10:} Assumptions in Case 4 and 5 are jointly sufficient to estimate non-equal $\beta_{11},\beta_{01}$. Assumptions in Case 4 and 6 can be considered a special case of Case 10.
+
+\textbf{Case 11:} For Cases 1-4 in addition we could also use the same treatment effect assumption $(\beta_{11}=\beta_{01})$ to identify the other group.
+
+Here we show that \cite{lee2014difference} proposed models are special cases of \ref{eq:fd} and \ref{eq:fd:alt}. \cite{lee2014difference} consider panel linear models $L_1$ and $L_2$. In both models, time-differences in potential untreated outcomes are a combination of time-effects\footnote{The definition of time-effects in these model is different from that of time-difference in potential untreated outcomes} $(\triangle \beta_3)$ and group-effects $(\beta_q)$. While these effects are constant they are not applied equally to all subgroups. From table \ref{tb:lee-modes-l1} it is clear that model $L_1$ assumes $\alpha_{00} = \alpha_{11} = \triangle \beta_3 $ (Case 3), $\alpha_{01} = \alpha_{10} = \triangle \beta_3 + \beta_q$ (Case 3) and $\beta_{01} = \beta_{11}$ (Case 11). Equal coefficient assumption makes one of the other two assumptions redundant. Instead Model $L_2$ assumes $\alpha_{00} = \alpha_{11} = \triangle \beta_3 $, $\alpha_{01} = \alpha_{10} = \triangle \beta_3 + \beta_q$ and different treatment effects (table \ref{tb:lee-modes-l2}).
+
+\scalebox{0.9}{ $
+	\begin{array}{ll}
+	(L_1)
+	\left\{ \begin{array}{ll} 
+	Y_{it}^0 & = \beta_t + \beta_q Q_{i,t} + \beta_w^\prime W_{it} + V_{it}\\[5pt]
+	Y_{it}^0 & = Y_{it}^0 + \beta_d 
+	\end{array} \right. &%end of first equation
+	(L_2) \left\{ \begin{array}{ll}
+	Y_{it}^0 & = \beta_t + \beta_q Q_{i,t} + \beta_w^\prime W_{it} + V_{it}\\[5pt]
+	Y_{it}^0 & = Y_{it}^0 + \beta_d Q_{i,t-1} + \beta_m (1-Q_{i,t-1}) 
+	\end{array}	\right.
+	\end{array}
+	$	
+}
+
+\begin{table}[h]
+	\caption{POM representation}
+	\centering
+	\begin{subtable}{\linewidth}
+		\caption{L1 model}
+		\label{tb:lee-modes-l1}
+		\centering
+		\scalebox{0.8}{
+			\begin{tabular}{cc c cc c cc c cc}
+				\multicolumn{2}{c}{Groups} & & \multicolumn{2}{c}{$Y_2^0$} & & \multicolumn{2}{c}{$Y_3^0$} & & \multicolumn{2}{c}{$Y_3^1$} \\
+				\cline{1-2} \cline{4-5} \cline{7-8} \cline{10-11}
+				\scriptsize{out-stayers $(Q_2 = 0,Q_3 = 0)$} & \scriptsize{in-movers $(Q_2 = 0,Q_3 = 1)$} & & $\beta_2$ & $\beta_2$& & $\beta_3$ & $\beta_3 + \beta_q$ & & $\beta_3 + \beta_d$ & $\beta_3 + \beta_q + \beta_d$ \\
+				\scriptsize{out-movers $(Q_2 = 1,Q_3 = 0)$} & \scriptsize{in-stayers $(Q_2 = 1,Q_3 = 1)$} & & $\beta_2 + \beta_q$ & $\beta_2 + \beta_q$& & $\beta_3$ & $\beta_3 + \beta_q$ & & $\beta_3 + \beta_d$ & $\beta_3 + \beta_q + \beta_d$ \\		
+			\end{tabular}
+		}
+	\end{subtable}
+	\begin{subtable}{\linewidth}
+		\caption{L2 model}
+		\label{tb:lee-modes-l2}
+		\centering
+		\scalebox{0.8}{
+			\begin{tabular}{cc c cc c cc c cc}
+				\multicolumn{2}{c}{Groups} & & \multicolumn{2}{c}{$Y_2^0$} & & \multicolumn{2}{c}{$Y_3^0$} & & \multicolumn{2}{c}{$Y_3^1$} \\
+				\cline{1-2} \cline{4-5} \cline{7-8} \cline{10-11}
+				\scriptsize{out-stayers $(Q_2 = 0,Q_3 = 0)$} & \scriptsize{in-movers $(Q_2 = 0,Q_3 = 1)$} & & $\beta_2$ & $\beta_2$& & $\beta_3$ & $\beta_3 + \beta_q$ & & $\beta_3 + \beta_d$ & $\beta_3 + \beta_q + \beta_d$ \\
+				\scriptsize{out-movers $(Q_2 = 1,Q_3 = 0)$} & \scriptsize{in-stayers $(Q_2 = 1,Q_3 = 1)$} & & $\beta_2 + \beta_q$ & $\beta_2 + \beta_q$& & $\beta_3$ & $\beta_3 + \beta_q$ & & $\beta_3 + \beta_m$ & $\beta_3 + \beta_q + \beta_m$ \\		
+			\end{tabular}
+		}
+	\end{subtable}
+\end{table}
+\subsection{Parametric vs. non-parametric assumptions} \label{comp:assumptions}
+In the previous subsection we claimed that assumptions made in Case 2 and 3 are equivalent respectively to \textit{"movers-"} and \textit{"stayers-"} \textit{"same time-effect"} identified by \cite{lee2014difference}. This is true if we add to the structural model \ref{model:m1}, the assumption of zero conditional mean of the error for each subgroup $E(V_{it}|Q_{i2}=i,Q_{i3}=j,W_{it})=0, \quad t=2,3 \quad i,j=0,1$. This assumption is sufficient (also stronger) than the usual $E(V_{it}|Q_{i2},Q_{i3},W_{it})=0, \quad t=2,3$. With the added assumption the following conditional means are derived
+\begin{align*}\label{cond:exp:panel}
+&E(Y_{i2}^0|Q_{i2}=0,Q_{i3}=0,W_{i2})=\gamma_{00}+\beta_w^\prime W_{i2} & E(Y_{i3}^0|Q_{i2}=0,Q_{i3}=0,W_{i3})=\delta_{00}+\beta_w^\prime W_{i3} \\
+&E(Y_{i2}^0|Q_{i2}=1,Q_{i3}=0,W_{i2})=\gamma_{10}+\beta_w^\prime W_{i2} & E(Y_{i3}^0|Q_{i2}=1,Q_{i3}=0,W_{i3})=\delta_{10}+\beta_w^\prime W_{i3}\\
+&E(Y_{i2}^0|Q_{i2}=0,Q_{i3}=1,W_{i2})=\gamma_{01}+\beta_w^\prime W_{i2} & E(Y_{i3}^1|Q_{i2}=0,Q_{i3}=1,W_{i3})=\delta_{01}+\beta_w^\prime W_{i3}\\
+&E(Y_{i2}^0|Q_{i2}=1,Q_{i3}=1,W_{i2})=\gamma_{11}+\beta_w^\prime W_{i2} & E(Y_{i3}^1|Q_{i2}=1,Q_{i3}=1,W_{i3})=\delta_{11}+\beta_w^\prime W_{i3} \tag{$CE_1$}
+\end{align*}
+\textit{"Stayers same time-effect"} has been defined as
+\begin{multline*}
+E(Y_{i3}^0|Q_{i2}=1,Q_{i3}=1,W_{i3})-E(Y_{i2}^0|Q_{i2}=1,Q_{i3}=1,W_{i2})=\\
+E(Y_{i3}^0|Q_{i2}=0,Q_{i3}=0,W_{i3})-E(Y_{i2}^0|Q_{i2}=0,Q_{i3}=0,W_{i2})
+\end{multline*}
+and from conditional expectations in \ref{cond:exp:panel} it is easy to see that the condition is equivalent to
+$$ \alpha_{11} = \delta_{11} - \gamma_{11} = \alpha_{00} = \delta_{00} - \gamma_{00} $$
+In the same way it can be shown that \textit{"movers same time-effect"} defined as
+\begin{multline*}
+E(Y_{i3}^0|Q_{i2}=0,Q_{i3}=1,W_{i3})-E(Y_{i2}^0|Q_{i2}=0,Q_{i3}=1,W_{i2})=\\
+E(Y_{i3}^0|Q_{i2}=1,Q_{i3}=0,W_{i3})-E(Y_{i2}^0|Q_{i2}=1,Q_{i3}=0,W_{i2})
+\end{multline*}
+is equivalent to $\alpha_{01}=\alpha_{10}$. In addition, we can see from \ref{cond:exp:panel}, that non-parametric assumptions linear on $E(\triangle Y_{i3}^0|W_i)$ are equivalent to linear combinations of $\alpha_{..}$. 
+
+Lastly we emphasize the meaning of $\gamma_{..}$ and $\delta_{..}$. As already pointed out in table~\ref{tb:subgroups}, these coefficients can be considered as the case when outcome is determined only by treatment and no other covariates or as conditional mean evaluated at $W_{it}=0$. For example $E(Y_{i2}^0|Q_{i2}=0,Q_{i3}=0,W_{i2}=0)=\gamma_{00}$. Note that usually $E(Y_{i2}^0|Q_{i2}=0,Q_{i3}=0)=E(E(Y_{i2}^0|Q_{i2}=0,Q_{i3}=0,W_i))=\gamma_{00}+\beta_w^\prime E(W_{i2}) \neq \gamma_{00} = E(Y_{i2}^0|Q_{i2}=0,Q_{i3}=0,W_{i2}=0)$.
+
+\subsection{RE estimator}
+Fixed effects estimators do not allow for time-invariant covariates, unless we apply a dummy-variable approach as with subgroup variables. Sometimes it is preferred to control for the effects of time-invariant covariates such as gender, therefore random effects methods are used. Model \ref{model:p1} can be employed for random-effects estimation depending on the structure we impose on the unobservables $V_{it}$. \cite{wooldridge2010econometric} provides a very good treatment of random effects estimation in linear panel models. 
+\begin{equation}\tag{$P_1$}
+%\label{model:p1}
+\begin{split}
+Y_{it}  = &\gamma_{00}G_{00}1[t=2] + \gamma_{10}G_{10}1[t=2] + \gamma_{01}G_{01}1[t=2] + \gamma_{11}G_{11}1[t=2] + \delta_{00}G_{00}1[t=3] \\
+& + \delta_{10}G_{10}1[t=3] + (\delta_{01}+\beta_{01})G_{01}1[t=3] + (\delta_{11}+\beta_{11})G_{11}1[t=3] + \beta_w^\prime W_{it} + V_{it}
+\end{split} 
+\end{equation}
+
+The three major comments mentioned in first difference estimation are valid also for random effects estimation. First, only $\beta_{01}$ and $\beta_{11}$ can be identified. Second, estimation will be always biased with the potential untreated outcomes at $t=3$ (or $\delta_{.1}$). Third, potential untreated outcomes at $t=2$ for all subgroups and at $t=3$ for \textit{out-groups} can be identified and estimated. Assuming some form of relationship between any combination of $\delta_{.1}$ with the other estimable coefficient makes it possible to disentangle treatment effects. Assumptions outlined in first difference estimation could be employed. 
+
+\section{Treatment effects with repeated cross-section data}
+We follow the approach of \cite{lee2006identification} when considering the case with cross-sectional data. In this setting, the timing for statistical unit $i$ to be observed is random and is denoted by $S_i = 1[\text{stat. unit $i$ sampled at $t=3$}]$. Then the observed outcome takes the form 
+\begin{equation*}
+Y_i = (1-S_i)Y_{i2}^0 + S_iY_{i3} = (1-S_i)Y_{i2}^0 + S_iY_{i3}^0 + S_iQ_{i3}(Y_{i3}^1-Y_{i3}^0)
+\end{equation*}
+Considering structural model \ref{model:m1} in a repeated cross-section setting gives observed outcome equation \ref{model:c1} (appendix \ref{appendix:cross})
+\begin{align*}\label{model:c1}
+Y_i = & (1-S_i)(1-Q_{i2})[\gamma_{00}(1-Q_{i3})+\gamma_{01}Q_{i3}] + (1-S_i)Q_{i2}[\gamma_{10}(1-Q_{i3})+\gamma_{11}Q_{i3}] + \\ 
+& +S_i(1-Q_{i3})[\delta_{00}(1-Q_{i2})+\delta_{10}Q_{i2}] + S_iQ_{i3}[(\delta_{01}+\beta_{01})(1-Q_{i2})+(\delta_{11}+\beta_{11})Q_{i2}]\\
+& + \beta_w^\prime W_{i}  + V_{i} \tag{$C_1$}
+\end{align*}
+Equation \ref{model:c1} is particularly useful since in repeated cross-sections a statistical unit is usually observed only once. This means that we can recover information only for the terms $S_iQ_{i3}=S_iQ_{i}$, $(1-S_i)Q_{i2}=(1-S_i)Q_{i}$, $S_i(1-Q_{i3})=S_i(1-Q_{i})$ and $(1-S_i)(1-Q_{i2})=(1-S_i)(1-Q_{i})$. Assuming zero conditional mean of the error for each subgroup $E(V_{i}|S_{i}=i,Q_{i}=j,W_{i})=0, \quad i,j=0,1$, which is sufficient (also stronger) than the usual $E(V_{i}|S_{i},Q_{i},W_{i})=0$, gives structural conditional mean \ref{model:c2} (appendix \ref{appendix:cross:cond})
+\begin{align*}\label{model:c2}
+E(Y_i& |S_i,Q_i,W_i) = \\
+& (1-S_i)(1-Q_{i})[\gamma_{00}P(Q_{i3}=0|S_i=0,Q_i=0,W_i)+\gamma_{01}P(Q_{i3}=1|S_i=0,Q_i=0,W_i)]\\
+ +& (1-S_i)Q_{i}[\gamma_{01}P(Q_{i3}=0|S_i=0,Q_i=1,W_i)+\gamma_{11}P(Q_{i3}=1|S_i=0,Q_i=1,W_i)]\\
+ + & S_i(1-Q_{i})[\delta_{00}P(Q_{i2}=0|S_i=1,Q_i=0,W_i)+\delta_{10}P(Q_{i2}=1|S_i=1,Q_i=0,W_i)]\\
+ + & S_iQ_{i}[(\delta_{01}+\beta_{01})P(Q_{i2}=0|S_i=1,Q_i=1,W_i)+(\delta_{11}+\beta_{11})P(Q_{i2}=1|S_i=1,Q_i=1,W_i)] \\
+ +&  \beta_w^\prime W_{i} \tag{$C_2$}
+\end{align*}
+Terms in $[.]$ in equation~\ref{model:c2} are unobservable and depend on $W_i$, therefore regression on covariates $((1-S_i)(1-Q_{i}),(1-S_i)Q_{i},S_i(1-Q_{i}),S_iQ_{i},W_i)^\prime$ will produce biased estimates. To eliminate bias we could either assume conditional independence of $Q_{i2},Q_{i3}$ (i.e. subgroups) on covariates $W_i$, or assume equal  $\gamma_{..}$ and $\delta_{..}$ coefficients within $[.]$ terms. Note that both approaches render the terms in $[.]$ into constants. One may choose to employ the approach that best suits the case under study. For example assuming conditional independence may not be reasonable in the case where poor people cannot switch treatments and are more likely to be \textit{out-stayers}. On other cases, assuming equal coefficients may be too strong of an assumption. We consider both cases in detail. 
+
+When considering the case of conditional independence assumption, we analyze only the first $[.]$ term. The same logic is applied to the remaining $[.]$ terms. Combining conditional independence with the interpretation of $\gamma_{..}$ and $\delta_{..}$ coefficients pointed out in subsection \ref{comp:assumptions}, transforms first $[.]$ term into \footnote{Note that $P(Q_{i3}=1|S_i=0,Q_i=0)=P(Q_{i3}=1|Q_{i2}=0)=P(Q_{i3}=1|Q_{i2}=0,W_{i2}=0)$. Last equality derives from conditional independence.}
+\begin{align*}\label{model:c3}
+E(Y_{i2}^0 |Q_{i2}=0,& W_{i2}=0) = E(Y_{i2}^0 |Q_{i2}=0,Q_{i3}=0,W_{i2}=0)P(Q_{i3}=0|S_i=0,Q_i=0) \\
+& + E(Y_{i2}^0 |Q_{i2}=0,Q_{i3}=1,W_{i2}=0)P(Q_{i3}=1|S_i=0,Q_i=0) \tag{$C_3$}
+\end{align*} 
+\ref{model:c3} can be considered either as the weighted average of $\gamma_{00}$ and $\gamma_{01}$, or as potential untreated outcome at $t=2$ for the subgroup defined by $Q_{i2}=1$ measured at $W_{it}=0$. From the other $[.]$ terms we would get $E(Y_{i2}^0 |Q_{i2}=1, W_{i2}=0), E(Y_{i3}^0 |Q_{i3}=0, W_{i2}=0)$ and $E(Y_{i3}^1 |Q_{i3}=1, W_{i2}=0)$. For ease of presentation, we use $\bar{\gamma}_{0.}, \bar{\gamma}_{1.},\bar{\delta}_{.0},\bar{\delta}_{.1} + \bar{\beta}_{.1}$ notation for the coefficients, where the bar identifies the mean, the dot the unobserved (averaged upon) qualification variable and the Greek letter notation as previously mentioned.
+
+Measuring treatment effects means identifying $\bar{\beta}_{.1}$, which as a result of subgroup treatment homogeneity and conditional independence, represents average treatment effects for \textit{stayer} group $(Q_{i3}=1)$. Since we can measure only the sum $\bar{\delta}_{.1} + \bar{\beta}_{.1}$ we need additional assumptions that relate $\bar{\delta}_{.1}$ to the other measurable coefficients $\bar{\gamma}_{0.}, \bar{\gamma}_{1.},\bar{\delta}_{.0}$. The most common functional form with a clear DD interpretation is $\bar{\delta}_{.1}- \bar{\gamma}_{1.} =\bar{\delta}_{.0}-\bar{\gamma}_{0.}$, which is equivalent to the \textit{identification} assumption for cross-section data identified by \cite{lee2006identification}.
+
+From \ref{model:c2} we get the following conditional means
+\begin{align*}\label{cond:exp:cross}
+&E(Y_{i2}^0|Q_{i}=0,S_i=0)=\bar{\gamma}_{0.}+\beta_w^\prime W_{i2} & E(Y_{i3}^0|Q_{i}=0,S_i=1)=\bar{\delta}_{.0}+\beta_w^\prime W_{i3} \\ 
+& E(Y_{i2}^0|Q_{i}=1,S_i=0)=\bar{\gamma}_{1.}+\beta_w^\prime W_{i2} & E(Y_{i3}^0|Q_{i}=1,S_i=1)=\bar{\delta}_{.1}+\beta_w^\prime W_{i3}\\
+& & E(Y_{i3}^1|Q_{i}=1,S_i=1)=\bar{\delta}_{.1}+\bar{\beta}_{.1}+\beta_w^\prime W_{i3} \tag{$CE_2$}
+\end{align*}
+
+The \textit{"Stayers same time-effect"} has been defined as
+$E(Y_3^0| Q_3=1) - E(Y_2^0| Q_2=1) = E(Y_3^0| Q_3=0) - E(Y_2^0| Q_2=0)$) and from conditional expectations in \ref{cond:exp:cross} it is easy to see that the condition is equivalent to $\bar{\delta}_{.1}- \bar{\gamma}_{1.} =\bar{\delta}_{.0}-\bar{\gamma}_{0.}$. 
+
+Using conditional means in \ref{cond:exp:cross} the relation between parametric and non-parametric methods is outlined in \ref{dd:estimator}. In terms of assumptions, the \textit{parametric} method is equivalent to the non-parametric DD estimator, but with the inherent advantages of the parametric methods for control on covariates and ease in understanding.
+\begin{align*}\label{dd:estimator}
+E(Y_i| Q_3=1) - E(Y_i| Q_2=1) - [E(Y_i| Q_3=0) - E(Y_i| Q_2=0)] = \bar{\delta}_{.1}+\bar{\beta}_{.1} - \bar{\gamma}_{1.} - (\bar{\delta}_{.0}-\bar{\gamma}_{0.}) \tag{DD}
+\end{align*}
+
+When considering equal coefficients approach, we have presented sufficient assumptions in  \ref{eq:equal:coef}. Assumptions (iii) and (iv) impose the same $Y_2^0$ for sub-groups with equal $Q_{i2}$, (ii) imposes the same $Y_3^0$ for sub-groups with $Q_{i3}=0$ and (i) imposes equality on $Y_3^1$ on the treated sub-groups. It is important to note that (i)-(iv) are sufficient to estimate $\tau$, which also includes bias term. In order to estimate treatment effects we need additional assumptions between $\delta_{.1}$ and the other estimable coefficients.
+\begin{align*}\label{eq:equal:coef}
+&(i) \quad \delta_{01}+\beta_{01} = \delta_{11}+\beta_{11} = \tau & (iii) \quad \gamma_{10}= \gamma_{11}=\gamma_{1.} \\
+&(ii) \quad \delta_{00}= \delta_{10}=\delta_{.0} & (iv) \quad \gamma_{00}= \gamma_{01}=\gamma_{0.} \tag{EQ}
+\end{align*}
+ In addition to (i)-(iv), assumptions (v) $\delta_{01}=\delta_{11}=\delta_{.1}$\footnote{(i) and (v) are equivalent to (i) and $\beta_{01}=\beta_{11}$} and (vi) $\delta_{.1}-\gamma_{1.} = \delta_{.0}-\gamma_{0.}$ are sufficient to estimate treatment effects. Assumption (vi) is only one functional form relating $\delta_{.1}$ to the other measurable potential outcomes $\gamma_{1.},\gamma_{0.}, \delta_{.0}$. This form is preferred since it provides the clear DD interpretation - groups (not necessary sub-groups) are affected by same unobserved differences. Other forms, such as opposite effects $\delta_{.1}-\gamma_{1.} = -(\delta_{.0}-\gamma_{0.})$, could be employed if supported by the specifics of the case under study \footnote{There is no limit to the functional form. Same percent change in untreated potential outcomes can also be considered $\frac{\delta_{.1}-\gamma_{1.}}{\gamma_{1.}}=\frac{\delta_{.0}-\gamma_{0.}}{\gamma_{0.}}$}. 
+ 
+ Differing treatment effects, $\beta_{01} \neq \beta_{11}$, can also be measured. Sufficient assumptions would be (i)-(iv) and (vi) together with assumptions that relate $\delta_{01}$ and $\delta_{11}$ to the other measurable potential outcomes $\gamma_{1.},\gamma_{0.}, \delta_{.0}$. Same caveats apply.
+
+We conclude with two sid notes. First, note that $(i)-(vi) \Rightarrow E(Y_3^0| Q_3=1) - E(Y_2^0| Q_2=1) = E(Y_3^0| Q_3=0) - E(Y_2^0| Q_2=0)$, which is \textit{identification} assumption described by \cite{lee2006identification}. Second, note that models of \cite{lee2014difference} are special cases of model \ref{model:c1}. For example,  model $L_1$ (also table~\ref{tb:lee-modes-l1}) fulfills assumptions (i)-(vi); (i) $\tau = \beta_{3} + \beta_{q} + \beta_{d} $, (ii) $\delta_{.0} = \beta_{3}$, (iii) $\gamma_{1.} = \beta_{2} + \beta_{q} $, (iv) $\gamma_{0.} = \beta_{2} $, (v) $\delta_{.1} = \beta_{3} + \beta_{q} $ and (vi) $\delta_{.1}-\gamma_{1.} = \delta_{.0}-\gamma_{0.} = \triangle \beta_{3} $.
+
+\section{Discussions}
+We have considered in full the case for dichotomous time-varying qualification and 2 time periods, which we believe is the most frequent case for treatment effects with time-varying qualification. Our approach of identifying and considering \textit{as given} all the possible subgroups introduced by the time-varying qualification can be extended to the cases where the qualifying variable represents more than one treatment and the time frame extends to 3 or more periods. Also allowing switching of treatments would affect only the set of subgroups considered, but not the general approach. The above outlined cases may require bigger datasets because of the higher number of parameters to be estimated. 
+
+\pagebreak
+%\vspace{1in}
+\bibliographystyle{apalike}
+\bibliography{biblioKimLee2014Extension}
+
+\appendix
+
+\pagebreak
+\section{Deriving the panel model} \label{appendix:panel:form}
+We derive the results using the Q-notation. Going to the G-notation is straightforward.
+\begin{equation*}
+	\begin{split}
+		Y_{it} = & Y_{i2} 1[t=2]+ Y_{i3} 1[t=3] = Y_{i2}^0 1[t=2]+ Y_{i3}^0 1[t=3] + (Y_{i3}^1-Y_{i3}^0)Q_{i,3}1[t=3] \\
+			= & \gamma_{00}(1-Q_{i,2})(1-Q_{i,3})1[t=2] + \gamma_{10}Q_{i,2}(1-Q_{i,3})1[t=2] + \gamma_{01}(1-Q_{i,2})Q_{i,3}1[t=2]\\
+				&   + \gamma_{11}Q_{i,2}Q_{i,3}1[t=2]  + \beta_w^\prime W_{i2}1[t=2] + V_{i2}1[t=2] + \delta_{00}(1-Q_{i,2})(1-Q_{i,3})1[t=3]\\
+				&  + \delta_{10}Q_{i,2}(1-Q_{i,3})1[t=3]  + \delta_{01}(1-Q_{i,2})Q_{i,3}1[t=3] + \delta_{11}Q_{i,2}Q_{i,3}1[t=3]\\
+				& + \beta_w^\prime W_{i3}1[t=3] + V_{i3}1[t=3] + \eta Q_{i,3} 1[t=3]
+\end{split}
+\end{equation*}
+where $\eta = \beta_{00}(1-Q_{i,2})(1-Q_{i,3}) + \beta_{10}Q_{i,2}(1-Q_{i,3}) + \beta_{01}(1-Q_{i,2})Q_{i,3}  + \beta_{11}Q_{i,2}Q_{i,3}$. Noting that $Q_{it}^2=Q_{it}$ and $(1-Q_{it})Q_{it}=0$, the terms measuring treatment effects becomes $\eta Q_{i,3} = \beta_{01}(1-Q_{i,2})Q_{i,3}  + \beta_{11}Q_{i,2}Q_{i,3}$. Also $\beta_w^\prime (W_{i2}1[t=2]+ W_{i3}1[t=3]) = \beta_w^\prime W_{it}$ and $V_{i2}1[t=2] +V_{i3}1[t=3] = V_{it}$. Then observed outcome is expressed as 
+\begin{align*}
+Y_{it} = & \gamma_{00}(1-Q_{i,2})(1-Q_{i,3})1[t=2] + \gamma_{10}Q_{i,2}(1-Q_{i,3})1[t=2] + \gamma_{01}(1-Q_{i,2})Q_{i,3}1[t=2] \\
+& + \gamma_{11}Q_{i,2}Q_{i,3}1[t=2] + \delta_{00}(1-Q_{i,2})(1-Q_{i,3})1[t=3] + \delta_{10}Q_{i,2}(1-Q_{i,3})1[t=3] \\ 
+& + (\delta_{01}+\beta_{01})(1-Q_{i,2})Q_{i,3}1[t=3] + (\delta_{11}+\beta_{11})Q_{i,2}Q_{i,3}1[t=3] + \beta_w^\prime W_{it} + V_{it}
+\end{align*}
+
+Substituting $G_{00}=(1-Q_{i,2})(1-Q_{i,3}), G_{01}=(1-Q_{i,2})Q_{i,3}, G_{10}=Q_{i,2}(1-Q_{i,3}), G_{11}=Q_{i,2}Q_{i,3}$, gives G-notation.
+
+\section{Deriving first difference equation}\label{appendix:fd:eq}
+Deriving the first difference equation is straightforward if we employ model \ref{model:o1}. For completeness we illustrate most of the steps how to derive first differences from model \ref{model:p1}. We use G-notation for shortness of presentation. Also note that when we are considering specific observations, $1[t=2]$ becomes either $1[3=2]$ or $1[3=2]$, and so on. 
+\begin{equation*}
+\begin{split}
+Y_{i2}  = &\gamma_{00}G_{00}1[2=2] + \gamma_{10}G_{10}1[2=2] + \gamma_{01}G_{01}1[2=2] + \gamma_{11}G_{11}1[2=2] + \delta_{00}G_{00}1[2=3] \\
+& + \delta_{10}G_{10}1[2=3] + (\delta_{01}+\beta_{01})G_{01}1[2=3] + (\delta_{11}+\beta_{11})G_{11}1[2=3] + \beta_w^\prime W_{i3} + V_{i3}\\
+\end{split} 
+\end{equation*}
+\begin{equation*}
+\begin{split}
+Y_{i3}  = &\gamma_{00}G_{00}1[3=2] + \gamma_{10}G_{10}1[3=2] + \gamma_{01}G_{01}1[3=2] + \gamma_{11}G_{11}1[3=2] + \delta_{00}G_{00}1[3=3] \\
+& + \delta_{10}G_{10}1[3=3] + (\delta_{01}+\beta_{01})G_{01}1[3=3] + (\delta_{11}+\beta_{11})G_{11}1[3=3] + \beta_w^\prime W_{i3} + V_{i3} \\
+\end{split} 
+\end{equation*}
+\begin{equation*}
+\begin{split}
+\triangle Y_{i3} = &  Y_{i3} - Y_{i2}\\
+ = & \gamma_{00}G_{00}(\underset{=-1}{\underbrace{1[3=2]-1[2=2]}})+\gamma_{01}G_{01}(\underset{=-1}{\underbrace{1[3=2]-1[2=2]}})+ \gamma_{10}G_{10}(\underset{=-1}{\underbrace{1[3=2]-1[2=2]}}) \\
+ & +\gamma_{11}G_{11}(\underset{=-1}{\underbrace{1[3=2]-1[2=2]}}) + \delta_{00}G_{00}(\underset{=1}{\underbrace{1[3=3]-1[2=3]}})+
+ \delta_{10}G_{10}(\underset{=1}{\underbrace{1[3=3]-1[2=3]}}) \\
+ & + (\delta_{01}+\beta_{01})G_{01}(\underset{=1}{\underbrace{1[3=3]-1[2=3]}}) + (\delta_{11}+\beta_{11})G_{11}(\underset{=1}{\underbrace{1[3=3]-1[2=3]}}) + \beta_x^\prime \triangle X_{i3} + \triangle U_{i3}\\
+ = & (\underset{=\alpha_{00}}{\underbrace{\delta_{00}-\gamma_{00}}})G_{00} + (\underset{=\alpha_{10}}{\underbrace{\delta_{10}-\gamma_{10}}}) G_{10} + (\underset{=\alpha_{01}}{\underbrace{\delta_{01}-\gamma_{01}}}+\beta_{01}) G_{01}  + 
+ (\underset{=\alpha_{11}}{\underbrace{\delta_{11}-\gamma_{11}}}+\beta_{11}) G_{11} + \beta_x^\prime \triangle X_{i3} + \triangle U_{i3}
+\end{split} 
+\end{equation*}
+
+\section{Alternative representation in Q-notation}\label{appendix:altern:present}
+The alternative Q-representation uses the terms $1, Q_{i,2},Q_{i,3}, Q_{i,2}Q_{i,3}$ instead of $(1-Q_{i,2})(1-Q_{i,3}), (1-Q_{i,2})Q_{i,3}, Q_{i,2}(1-Q_{i,3}), Q_{i,2}Q_{i,3}$. Therefore potential outcomes could also be represented as
+\begin{multline*}
+\gamma_{00}(1-Q_{i,2})(1-Q_{i,3}) + \gamma_{10}Q_{i,2}(1-Q_{i,3}) + \gamma_{01}(1-Q_{i,2})Q_{i,3}  + \gamma_{11}Q_{i,2}Q_{i,3} = \\
+\gamma_{00} + (\gamma_{10}-\gamma_{00})Q_{i,2} + (\gamma_{01}-\gamma_{00})Q_{i,3} + (\gamma_{11}-\gamma_{10}-\gamma_{01} +\gamma_{00})Q_{i,2}Q_{i,3}
+\end{multline*}
+Then model \ref{model:m1} can be presented as model \ref{model:m1prime}.
+\begin{align*}\label{model:m1prime}
+Y_{i2}^0 & = \gamma_{00} + (\gamma_{10}-\gamma_{00})Q_{i,2} + (\gamma_{01}-\gamma_{00})Q_{i,3} + (\gamma_{11}-\gamma_{10}-\gamma_{01} +\gamma_{00})Q_{i,2}Q_{i,3} + \beta_w^\prime W_{i2} + V_{i2}\\ 
+Y_{i3}^0 & = \delta_{00} + (\delta_{10}-\delta_{00})Q_{i,2} + (\delta_{01}-\delta_{00})Q_{i,3} + (\delta_{11}-\delta_{10}-\delta_{01} +\delta_{00})Q_{i,2}Q_{i,3} + \beta_w^\prime W_{i3} + V_{i3}\\ 
+Y_{i3}^1  & = Y_{i3}^0 +\underset{=\theta}{\underbrace{\beta_{00} + (\beta_{10}-\beta_{00})Q_{i,2} + (\beta_{01}-\beta_{00})Q_{i,3} + (\beta_{11}-\beta_{10}-\beta_{01} +\beta_{00})Q_{i,2}Q_{i,3}}} \tag{$M_1^\prime$}
+\end{align*}
+Always by considering information on $Q_{i,2}, Q_{i,3}$ as given and noting that $\theta Q_{i,3} = \beta_{01}  Q_{i,3} + (\beta_{11}-\beta_{01})Q_{i,2}Q_{i,3}$ we could either derive either \ref{model:p1prime} or \ref{model:o1prime} from \ref{model:m1prime}. 
+\begin{align*} \label{model:p1prime}
+Y_{it}  = & \gamma_{00}1[t=2] + (\gamma_{10}-\gamma_{00})Q_{i,2}1[t=2] + (\gamma_{01}-\gamma_{00})Q_{i,3}1[t=2] \\
+& + (\gamma_{11}-\gamma_{10}-\gamma_{01} +\gamma_{00})Q_{i,2}Q_{i,3}1[t=2] + \delta_{00}1[t=3] + (\delta_{10}-\delta_{00})Q_{i,2}1[t=3] \\
+&  + (\delta_{01}-\delta_{00}+\beta_{01})Q_{i,3}1[t=3] + (\delta_{11}-\delta_{10}-\delta_{01} +\delta_{00}+\beta_{11}-\beta_{01})Q_{i,2}Q_{i,3}1[t=3]\\
+& + \beta_w^\prime W_{it} + V_{it} \tag{$P_1^\prime$}
+\end{align*}
+\begin{align*}\label{model:o1prime}
+Y_{i2} &= \gamma_{00} + (\gamma_{10}-\gamma_{00})Q_{i,2} + (\gamma_{01}-\gamma_{00})Q_{i,3} + (\gamma_{11}-\gamma_{10}-\gamma_{01} +\gamma_{00})Q_{i,2}Q_{i,3} + \beta_w^\prime W_{i2} + V_{i2}\\
+Y_{i3} &= \delta_{00} + (\delta_{10}-\delta_{00})Q_{i,2}  + (\delta_{01}-\delta_{00}+\beta_{01})Q_{i,3} + (\delta_{11}-\delta_{10}-\delta_{01} +\delta_{00}+\beta_{11}-\beta_{01})Q_{i,2}Q_{i,3} \\
+& + \beta_w^\prime W_{i3} + V_{i3} \tag{$O_1^\prime$}
+\end{align*}
+Using the same approach as in appendix \ref{appendix:fd:eq} we arrive at the alternative Q-notation first difference equation
+\begin{equation*}
+\begin{split}
+\triangle Y_{i3} = &  \alpha_{00} + (\alpha_{10}-\alpha_{00})Q_{i,2} + (\alpha_{01}-\alpha_{00}+\beta_{01})Q_{i,3}  \\
+& + (\alpha_{11}-\alpha_{10}-\alpha_{01} +\alpha_{00}+\beta_{11}-\beta_{01})Q_{i,2}Q_{i,3}+\beta_x^\prime \triangle X_{i3} + \triangle U_{i3} 
+\end{split}
+\end{equation*}
+
+\section{Deriving the repeated cross-sections model} \label{appendix:cross}
+We use model \ref{model:m1} and the Q-representation.
+\begin{align*}
+Y_i = & (1-S_i)Y_{i2}^0 + S_iY_{i3} = (1-S_i)Y_{i2}^0 + S_iY_{i3}^0 + S_iQ_{i3}(Y_{i3}^1-Y_{i3}^0)\\
+ = & (1-S_i)(1-Q_{i,2})[\gamma_{00}(1-Q_{i,3})+\gamma_{01}Q_{i,3}] + (1-S_i)Q_{i2}[\gamma_{10}(1-Q_{i3})+\gamma_{11}Q_{i3}] + \\
+ & + (1-S_i)\beta_w^\prime W_{i2} + (1-S_i)V_{i2} +S_i(1-Q_{i3})[\delta_{00}(1-Q_{i2})+\delta_{10}Q_{i2}]\\
+  &  + S_iQ_{i3}[\delta_{01}(1-Q_{i2})+\delta_{11}Q_{i2}] + S_i\beta_w^\prime W_{i3} + S_iV_{i3}\\
+ & + S_iQ_{i3}[\beta_{01}(1-Q_{i2})+\beta_{11}Q_{i2}]+ \underset{=0}{\underbrace{Q_{i3}(1-Q_{i3})}}S_i[\beta_{10}(1-Q_{i2})+\beta_{00}Q_{i2}]\\
+ = & (1-S_i)(1-Q_{i2})[\gamma_{00}(1-Q_{i3})+\gamma_{01}Q_{i3}] + (1-S_i)Q_{i2}[\gamma_{10}(1-Q_{i3})+\gamma_{11}Q_{i3}] + \\ & +S_i(1-Q_{i3})[\delta_{00}(1-Q_{i2})+\delta_{10}Q_{i2}] + S_iQ_{i3}[(\delta_{01}+\beta_{01})(1-Q_{i2})+(\delta_{11}+\beta_{11})Q_{i2}]\\
+ & + \beta_w^\prime \underset{=W_{i}}{\underbrace{[(1-S_i)W_{i2} + S_iW_{i3}]}} + \underset{=V_{i}}{\underbrace{[(1-S_i)V_{i2} + S_iV_{i3}]}}
+\end{align*}
+
+\section{Structural conditional mean for repeated cross-sections} \label{appendix:cross:cond}
+In addition to the structural model \ref{model:c1} we need the assumption of zero conditional mean of the error for each subgroup $E(V_{i}|S_{i}=i,Q_{i}=j,W_{i})=0, \quad i,j=0,1$. This assumption is sufficient (also stronger) than the usual $E(V_{i}|S_{i},Q_{i},W_{i})=0$.
+\begin{align*}
+E(Y_i& |S_i,Q_i,W_i) = (1-S_i)(1-Q_{i})[\gamma_{00}(1-E(Q_{i3}|S_i,Q_i,W_i)) + \gamma_{01}E(Q_{i3}|S_i,Q_i,W_i)]\\
+& +(1-S_i)Q_{i}[\gamma_{01}(1-E(Q_{i3}|S_i,Q_i,W_i)+\gamma_{11}E(Q_{i3}|S_i,Q_i,W_i)]\\
+& + S_i(1-Q_{i})[\delta_{00}(1-E(Q_{i2}|S_i,Q_i,W_i)+\delta_{10}E(Q_{i2}|S_i,Q_i,W_i)]\\
+& + S_iQ_{i}[(\delta_{01}+\beta_{01})(1-E(Q_{i2}|S_i,Q_i,W_i)+(\delta_{11}+\beta_{11})E(Q_{i2}|S_i,Q_i,W_i)] + \beta_w^\prime W_{i}\\
+= & (1-S_i)(1-Q_{i})[\gamma_{00}P(Q_{i3}=0|S_i,Q_i,W_i)+\gamma_{01}P(Q_{i3}=1|S_i,Q_i,W_i)]\\
+& +(1-S_i)Q_{i}[\gamma_{01}P(Q_{i3}=0|S_i,Q_i,W_i)+\gamma_{11}P(Q_{i3}=1|S_i,Q_i,W_i)]\\
+& + S_i(1-Q_{i})[\delta_{00}P(Q_{i2}=0|S_i,Q_i,W_i)+\delta_{10}P(Q_{i2}=1|S_i,Q_i,W_i)]\\
+& + S_iQ_{i}[(\delta_{01}+\beta_{01})P(Q_{i2}=0|S_i,Q_i,W_i)+(\delta_{11}+\beta_{11})P(Q_{i2}=1|S_i,Q_i,W_i)] + \beta_w^\prime W_{i}
+\end{align*}
+We get \ref{model:c2} noting that the product $(.)(.)[.]$ is nonzero only when the respective $(.)(.)$ combination is non-zero. For example
+\begin{align*}
+\underset{=(.)}{\underbrace{(1-S_i)}}&\underset{=(.)}{\underbrace{(1-Q_i)}}\underset{=[.]}{\underbrace{[\gamma_{00}P(Q_{i3}=0|S_i,Q_i,W_i)+\gamma_{01}P(Q_{i3}=1|S_i,Q_i,W_i)]}}= \\
+ & (1-S_i)(1-Q_{i})[\gamma_{00}P(Q_{i3}=0|S_i=0,Q_i=0,W_i)+\gamma_{01}P(Q_{i3}=1|S_i=0,Q_i=0,W_i)]
+\end{align*} 
+
+\end{document}
